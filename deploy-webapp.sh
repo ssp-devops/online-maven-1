@@ -1,10 +1,7 @@
 #!/bin/bash
 
-## Usage $1 --> Image Name
-
-echo "=== Kill Running Containers ==="
-#docker kill `docker ps | grep $1 | awk '{print $1}'`
-for i in `docker ps -qa` ; do docker container rm $i; done
+## Usage $1 --> Image Name $2 port number
+docker kill `docker ps | grep -e "$1\|Up" | cut -d ' ' -f1`
 
 echo " ==== Build the WebApp war file ceraton"
 mvn clean package
@@ -20,5 +17,6 @@ docker run -dit -p 9090:8080 $1
 
 
 echo " === Display Running Contianers"
+docker ps | grep $1
 #echo "=== Displaying the Container logs === "
 #docker logs -f `docker ps | grep $1 | awk '{print $1}'`
