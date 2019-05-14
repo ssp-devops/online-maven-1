@@ -2,6 +2,9 @@
 
 ## Usage $1 --> Image Name
 
+echo "=== Kill Running Containers ==="
+docker kill `docker ps | grep $1 | awk '{print $1}'`
+
 echo " ==== Build the WebApp war file ceraton"
 mvn clean package
 
@@ -14,5 +17,7 @@ echo " === To deploy the webApp ===="
 
 docker run -dit -p 9090:8080 $1
 
-echo "=== Displaying the Container logs === "
-docker logs -f `docker ps | grep $1 | awk '{print $1}'`
+
+echo " === Display Running Contianers"
+#echo "=== Displaying the Container logs === "
+#docker logs -f `docker ps | grep $1 | awk '{print $1}'`
