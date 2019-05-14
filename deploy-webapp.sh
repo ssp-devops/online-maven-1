@@ -4,7 +4,7 @@
 
 echo "=== Kill Running Containers ==="
 #docker kill `docker ps | grep $1 | awk '{print $1}'`
-for i in `docker ps -aq`; do ; docker kill $i; done
+for i in `docker ps -qa` ; do docker container rm $i; done
 
 echo " ==== Build the WebApp war file ceraton"
 mvn clean package
