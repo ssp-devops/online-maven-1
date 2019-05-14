@@ -3,7 +3,8 @@
 ## Usage $1 --> Image Name
 
 echo "=== Kill Running Containers ==="
-docker kill `docker ps | grep $1 | awk '{print $1}'`
+#docker kill `docker ps | grep $1 | awk '{print $1}'`
+for i in `docker ps -aq`; do ; docker kill $1; done
 
 echo " ==== Build the WebApp war file ceraton"
 mvn clean package
