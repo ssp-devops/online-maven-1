@@ -11,7 +11,7 @@
 <title>sspawsdevops</title>
 <style>
   body { text-align: center; padding: 150px; color: #99bbff  }
-  h1 { font-size: 50px; }
+  h1 { color:blue; font-size: 50px; }
   body { font: 20px Helvetica, sans-serif; color: #333; }
   article { display: block; text-align: left; width: 650px; margin: 0 auto; }
   a { color: #99bbff; text-decoration: none; }
