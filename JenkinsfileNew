@@ -1,0 +1,32 @@
+node('master') {
+ 
+ stage('SCM') {
+     
+     checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[name: 'online-maven', url: 'https://github.com/awsdevopsssp/online-maven-1.git']]])
+     sh "ls -ltr"     
+ }
+ 
+ /* stage('Build & Deploy') {
+    sh "sh deploy-webapp.sh ${JOB_NAME}:${BUILD_NUMBER}"
+  } */
+  
+  stage('Kill Running Container') {
+  sh """ docker kill `docker ps | grep -e "${JOB_NAME}\|Up" | cut -d ' ' -f1` """
+  }
+  
+  stage('Build War file'){
+
+    sh "mvn clean package"
+  
+  }
+  stage('Build Docker Image'){
+  sh "docker build -t ${JOB_NAME}:${BUILD_NUMBER} ."
+  }
+  
+  stage('Run the container'){
+    sh "docker run -dit -p 9090:8080 ${JOB_NAME}:${BUILD_NUMBER}"
+    sh ' echo "Dispalying the Running Conyainer"' 
+    sh "docker ps | grep ${JOB_NAME}"
+  }
+  
+}
