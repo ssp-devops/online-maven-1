@@ -11,7 +11,7 @@ node('master') {
   } */
   
   stage('Kill Running Container') {
-  sh """ docker kill `docker ps | grep -e "${JOB_NAME}\|Up" | cut -d ' ' -f1` """
+  sh """ docker kill `docker ps | grep "Up" | cut -d ' ' -f1` """
   }
   
   stage('Build War file'){
