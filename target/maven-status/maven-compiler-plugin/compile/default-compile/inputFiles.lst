@@ -1,0 +1,6 @@
+/opt/online-maven-1/src/main/java/com/denofprogramming/controller/IdentifierGenerationController.java
+/opt/online-maven-1/src/main/java/com/denofprogramming/random/RandomGenerator.java
+/opt/online-maven-1/src/main/java/com/denofprogramming/random/DefaultRandomNumberGenerator.java
+/opt/online-maven-1/src/main/java/com/denofprogramming/config/Config.java
+/opt/online-maven-1/src/main/java/com/denofprogramming/config/WebInitializer.java
+/opt/online-maven-1/src/main/java/com/denofprogramming/random/GeneratedRandomIdentifier.java
