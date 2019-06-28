@@ -33,7 +33,9 @@ try
         }
     }
  //notify_all("Success", "good", "jenkins-notify")
- slackSend channel: 'jenkins-notify', color: 'good', iconEmoji: '', message: '(<${env.BUILD_URL}|Build>) `${JOB_NAME}:${env.BUILD_NUMBER}`\\nSuccess', teamDomain: 'sspcloudpro', tokenCredentialId: 'sspcloudpro-slack-token', username: ''
+// slackSend channel: 'jenkins-notify', color: 'good', iconEmoji: '', message: '(<${env.BUILD_URL}|Build>) `${JOB_NAME}:${env.BUILD_NUMBER}`\\nSuccess', teamDomain: 'sspcloudpro', tokenCredentialId: 'sspcloudpro-slack-token', username: ''
+  slackSend(channel: "jenkins-notify",message: "(<${env.BUILD_URL}|Build>) `${JOB_NAME}:${env.BUILD_NUMBER}`\n Success",color: "good"
+  )
  }
     catch (e) {
      currentBuild.result = "FAILED"
