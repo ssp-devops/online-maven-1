@@ -1,0 +1,21 @@
+node('apache') {
+    stage('SCM') {
+        checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/awsdevopsssp/online-maven-1.git']]])
+        sh "ls -ltr"
+    }
+    stage('Build the code') {
+
+        echo "============ Building the War file Start====== "
+        sh "mvn clean package"
+        sh 'cd ${WORKSPACE}/target; mv mywebapp.war mywebapp-"${BRANCH_NAME}-${BUILD_NUMBER}".war '
+        echo "============ Building the War file End====== "
+    }
+    stage('Store Artifacts into S3') {
+        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 's3bukcetcreds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+        echo "============ Publish into S3 bucket Start====== "
+        s3Upload consoleLogLevel: 'INFO', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'k8s-cloud', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: false, selectedRegion: 'ap-southeast-1', showDirectlyInBrowser: false, sourceFile: 'target/*.war', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 's3push', userMetadata: []
+        echo "============ Publish into S3 bucket End====== "
+        }
+    }
+
+}
