@@ -1,4 +1,19 @@
+
+def notify_all(message, color, slackChannel) {
+  def settings = settings()
+  def updatedMessage = "(<${env.BUILD_URL}|Build>) `${JOB_NAME}:${env.BUILD_NUMBER}`\n${message}"
+  echo updatedMessage
+  slackSend(
+        channel: slackChannel,
+          message: updatedMessage,
+          color: color
+  )
+}
+
+
 node('apache') {
+try
+{
     stage('SCM') {
         checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/awsdevopsssp/online-maven-1.git']]])
         sh "ls -ltr"
@@ -16,6 +31,13 @@ node('apache') {
         s3Upload consoleLogLevel: 'INFO', dontWaitForConcurrentBuildCompletion: false, entries: [[bucket: 'k8s-cloud', excludedFile: '', flatten: false, gzipFiles: false, keepForever: false, managedArtifacts: false, noUploadOnFailure: false, selectedRegion: 'ap-southeast-1', showDirectlyInBrowser: false, sourceFile: 'target/*.war', storageClass: 'STANDARD', uploadFromSlave: false, useServerSideEncryption: false]], pluginFailureResultConstraint: 'FAILURE', profileName: 's3push', userMetadata: []
         echo "============ Publish into S3 bucket End====== "
         }
+    }
+ notify_all("Success", "good", "jenkins-notify")
+ }
+    catch (e) {
+     currentBuild.result = "FAILED"
+     echo "${e.getClass().getName()} - ${e.getMessage()}"
+     notify_all("Failed", "warning", "jenkins-notify")
     }
 
 }
