@@ -32,12 +32,14 @@ try
         echo "============ Publish into S3 bucket End====== "
         }
     }
- notify_all("Success", "good", "jenkins-notify")
+ //notify_all("Success", "good", "jenkins-notify")
+ slackSend channel: 'jenkins-notify', color: 'good', iconEmoji: '', message: '"Success ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"', teamDomain: 'sspcloudpro', tokenCredentialId: 'sspcloudpro-slack-token', username: ''
  }
     catch (e) {
      currentBuild.result = "FAILED"
      echo "${e.getClass().getName()} - ${e.getMessage()}"
-     notify_all("Failed", "warning", "jenkins-notify")
+//     notify_all("Failed", "warning", "jenkins-notify")
+slackSend channel: 'jenkins-notify', color: 'warning', iconEmoji: '', message: '"Failed ${env.JOB_NAME} ${env.BUILD_NUMBER} (<${env.BUILD_URL}|Open>)"', teamDomain: 'sspcloudpro', tokenCredentialId: 'sspcloudpro-slack-token', username: ''
     }
 
 }
