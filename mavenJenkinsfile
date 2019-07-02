@@ -22,8 +22,13 @@ try
 
         echo "============ Building the War file Start====== "
         sh "mvn clean package"
-        sh 'cd ${WORKSPACE}/target; mv mywebapp.war mywebapp-"${BRANCH_NAME}-${BUILD_NUMBER}".war '
         echo "============ Building the War file End====== "
+    }
+    stage('Deploy into WebServer') {
+        echo "============ Deploy the War file Start====== "
+        sh 'cd ${WORKSPACE}/target; cp mywebapp.war /usr/local/tomcat9/webapps/'
+        sh 'cd ${WORKSPACE}/target; mv mywebapp.war mywebapp-"${BRANCH_NAME}-${BUILD_NUMBER}".war '
+        echo "============ Deploy the War file End====== "
     }
     stage('Publish builds into S3') {
         withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 's3bukcetcreds', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
