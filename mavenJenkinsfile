@@ -27,7 +27,7 @@ try
     stage('Deploy into WebServer') {
         echo "============ Deploy the War file Start====== "
         sh 'cd ${WORKSPACE}/target; cp mywebapp.war /usr/local/tomcat9/webapps/'
-        sh 'cd ${WORKSPACE}/target; mv mywebapp.war mywebapp-"${BRANCH_NAME}-${BUILD_NUMBER}".war '
+        sh 'cd ${WORKSPACE}/target; sudo mv mywebapp.war mywebapp-"${BRANCH_NAME}-${BUILD_NUMBER}".war '
         echo "============ Deploy the War file End====== "
     }
     stage('Publish builds into S3') {
