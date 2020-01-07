@@ -83,15 +83,6 @@ Also show cases the 'Simple Logging Framework - slf4j'.</description>
 			<version>1.2</version>
 		</dependency>
 
-		<!-- Logging dependencies -->
-
-		<dependency>
-			<groupId>log4j</groupId>
-			<artifactId>log4j</artifactId>
-			<version>1.2.17</version>
-			<scope>compile</scope>
-		</dependency>
-
 		<!-- Unit Test dependencies -->
 		<dependency>
 			<groupId>junit</groupId>
